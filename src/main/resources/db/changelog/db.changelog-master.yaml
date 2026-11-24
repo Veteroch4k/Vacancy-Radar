@@ -1,0 +1,10 @@
+databaseChangeLog:
+
+# V1
+
+  - include:
+      file: db/changelog/v1/001-create-channels.sql
+  - include:
+      file: db/changelog/v1/002-create-posts.sql
+  - include:
+      file: db/changelog/v1/003-seed-default-channels.sql
