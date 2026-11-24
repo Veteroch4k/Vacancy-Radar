@@ -6,33 +6,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.simple.JdbcClient;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest
 class VacancyradarApplicationTests {
 
-	@Autowired
-	private JdbcClient jdbcClient;
+    @Autowired
+    private JdbcClient jdbcClient;
 
+    @Test
+    void contextLoadsAndDefaultSeedIsSkippedInTestContext() {
+        Long channelsCount = jdbcClient.sql("SELECT count(*) FROM channels")
+                .query(Long.class)
+                .single();
 
-	@Test
-	void contextLoads() {
-
-	}
-
-	@Test
-	void seedLoading() {
-
-		Integer count = jdbcClient
-				.sql("SELECT count(*) FROM channels")
-				.query(Integer.class)
-				.single();
-
-		assertEquals(0, count);
-
-
-	}
-
+        assertThat(channelsCount).isZero();
+    }
 
 }
